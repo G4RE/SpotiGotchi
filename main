@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+import time
+from spotify_client import get_spotify_client
+from spotify_now_playing import get_now_playing
+from image_processor import album_art_to_image
+from matrix_display import create_matrix, show_image
+
+UPDATE_INTERVAL = 5  # seconds
+DEFAULT_IMAGE_PATH = "assets/idle.png"
+
+def main():
+    sp = get_spotify_client()
+    matrix = create_matrix()
+
+    last_album_url = None
+    current_image = album_art_to_image(DEFAULT_IMAGE_PATH)
+
+    while True:
+        try:
+            now_playing = get_now_playing(sp)
+
+            if now_playing and now_playing["is_playing"]:
+                album_url = now_playing["album_art_url"]
+
+                # Only update image if the track changed
+                if album_url != last_album_url:
+                    current_image = album_art_to_image(album_url)
+                    last_album_url = album_url
+
+                show_image(matrix, current_image)
+
+            else:
+                show_image(matrix, current_image)
+
+        except Exception as e:
+            print("Error:", e)
+
+        time.sleep(UPDATE_INTERVAL)
+
+if __name__ == "__main__":
+    main()
