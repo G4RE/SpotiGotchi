@@ -62,7 +62,23 @@ SPOTIGOTCHI_WIFI_IFACE=wlan0
 
 ## Project Status
 
-Early exploration and planning. Expect rapid iteration and breaking changes as the foundation is established.
+SpotiGotchi has moved beyond exploration into a working prototype. The core loop can authenticate with Spotify, fetch now-playing data, and render album artwork to a 64×64 LED matrix display. Expect rapid iteration and breaking changes as the foundation is strengthened.
+
+### Current Progress
+
+- Spotify authentication with QR-based login and local callback handling.
+- Now-playing polling that detects track changes and playback state.
+- Image processing pipeline that resizes album art to the LED matrix resolution.
+- Matrix display integration (via `matrix_display`) to render frames.
+- Boot-time automation with a systemd service and Wi-Fi fallback hotspot support.
+
+### Upcoming Changes
+
+- Add track metadata rendering (title, artist, and play/pause indicators) alongside artwork.
+- Improve resilience with better error handling, retries, and offline placeholders.
+- Document supported LED matrix hardware and wiring recommendations.
+- Provide an onboarding guide for Spotify app setup and device provisioning.
+- Build a repeatable SD card image pipeline for Raspberry Pi Zero deployments.
 
 ## Contributing
 
