@@ -1,11 +1,9 @@
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+import sys
+from pathlib import Path
 
-sp = spotipy.Spotify(
-    auth_manager=SpotifyOAuth(
-        scope="user-read-playback-state",
-        cache_path="../.spotify_cache"
-    )
-)
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-print("Token generated successfully")
+from spotify_client import get_spotify_client
+
+get_spotify_client()
+print("Token generated successfully and cached for SpotiGotchi.")
