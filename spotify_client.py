@@ -4,12 +4,21 @@ import threading
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
+import importlib.util
 import qrcode
 import spotipy
+from PIL import Image
 from spotipy.oauth2 import SpotifyOAuth
 
 SPOTIFY_SCOPE = "user-read-playback-state"
 DEFAULT_CACHE_PATH = os.path.join(os.path.dirname(__file__), ".spotify_cache")
+QR_MATRIX_SIZE = (64, 64)
+
+if importlib.util.find_spec("matrix_display"):
+    from matrix_display import create_matrix, show_image
+else:
+    create_matrix = None
+    show_image = None
 
 
 def _get_redirect_uri():
@@ -87,6 +96,15 @@ def _print_auth_qr(auth_url):
     white = "  "
     for row in matrix:
         print("".join(black if cell else white for cell in row))
+
+    if create_matrix and show_image:
+        qr_image = (
+            qr.make_image(fill_color="black", back_color="white")
+            .convert("RGB")
+            .resize(QR_MATRIX_SIZE, Image.NEAREST)
+        )
+        matrix_display = create_matrix()
+        show_image(matrix_display, qr_image)
 
 
 def _await_auth_code(redirect_uri):
