@@ -23,9 +23,12 @@ def main():
                 album_url = now_playing["album_art_url"]
 
                 # Only update image if the track changed
-                if album_url != last_album_url:
+                if album_url and album_url != last_album_url:
                     current_image = album_art_to_image(album_url)
                     last_album_url = album_url
+                elif not album_url and last_album_url is not None:
+                    current_image = album_art_to_image(DEFAULT_IMAGE_PATH)
+                    last_album_url = None
 
                 show_image(matrix, current_image)
 
