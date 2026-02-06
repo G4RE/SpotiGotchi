@@ -1,0 +1,19 @@
+[Unit]
+Description=SpotiGotchi LED matrix display
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/spotigotchi
+EnvironmentFile=-/etc/spotigotchi.env
+ExecStartPre=/opt/spotigotchi/tools/wifi_fallback.sh
+ExecStart=/opt/spotigotchi/.venv/bin/python /opt/spotigotchi/main
+Restart=on-failure
+RestartSec=5
+User=pi
+Group=pi
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
