@@ -43,7 +43,24 @@ def _get_local_ip():
 
 
 def _build_auth_manager():
+    client_id = os.getenv("SPOTIGOTCHI_CLIENT_ID") or os.getenv("SPOTIPY_CLIENT_ID")
+    client_secret = os.getenv("SPOTIGOTCHI_CLIENT_SECRET") or os.getenv("SPOTIPY_CLIENT_SECRET")
+
+    if not client_id:
+        raise RuntimeError(
+            "Missing Spotify client ID. Set SPOTIGOTCHI_CLIENT_ID (or SPOTIPY_CLIENT_ID) "
+            "in /etc/spotigotchi.env."
+        )
+
+    if not client_secret:
+        raise RuntimeError(
+            "Missing Spotify client secret. Set SPOTIGOTCHI_CLIENT_SECRET "
+            "(or SPOTIPY_CLIENT_SECRET) in /etc/spotigotchi.env."
+        )
+
     return SpotifyOAuth(
+        client_id=client_id,
+        client_secret=client_secret,
         scope=SPOTIFY_SCOPE,
         cache_path=os.getenv("SPOTIGOTCHI_CACHE_PATH", DEFAULT_CACHE_PATH),
         redirect_uri=_get_redirect_uri(),
