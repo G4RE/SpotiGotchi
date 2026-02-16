@@ -58,7 +58,14 @@ If the device boots without Wi-Fi connectivity, the service runs `/opt/spotigotc
 SPOTIGOTCHI_AP_SSID=SpotiGotchi-Setup
 SPOTIGOTCHI_AP_PASSWORD=spotigotchi
 SPOTIGOTCHI_WIFI_IFACE=wlan0
+
+# Spotify app credentials (required)
+SPOTIGOTCHI_CLIENT_ID=your_spotify_client_id
+SPOTIGOTCHI_CLIENT_SECRET=your_spotify_client_secret
+SPOTIGOTCHI_REDIRECT_URI=http://<device-ip>:8888/callback
 ```
+
+`SPOTIGOTCHI_CLIENT_ID` / `SPOTIGOTCHI_CLIENT_SECRET` are the preferred variables for this project, but `SPOTIPY_CLIENT_ID` / `SPOTIPY_CLIENT_SECRET` are also supported.
 
 ## Project Status
 
